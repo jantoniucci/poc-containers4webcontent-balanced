@@ -1,0 +1,1 @@
+docker run -d --name statics0 -p 80:80 --link statics1:statics1 --link statics2:statics2 $(docker-machine ip consul):5000/statics0

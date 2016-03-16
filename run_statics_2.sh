@@ -1,0 +1,1 @@
+docker run -d --name statics2 -p 82:80 $(docker-machine ip consul):5000/statics2

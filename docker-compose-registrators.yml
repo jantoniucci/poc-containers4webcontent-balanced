@@ -1,0 +1,37 @@
+version: "2"
+
+services:
+  registratormaster:
+    image: 192.168.99.100:5000/registrator
+    networks:
+      - staticsnet
+    environment:
+      - "constraint:node==swarm-master"
+
+  registratormaster:
+    command: -ip 192.168.99.101 consul://192.168.99.100:8500
+    image: gliderlabs/registrator:latest
+    volumes:
+    - "/var/run/docker.sock:/tmp/docker.sock"
+    environment:
+      - "constraint:node==swarm-master"
+
+  registratoragent1:
+    command: -ip 192.168.99.102 consul://192.168.99.100:8500
+    image: gliderlabs/registrator:latest
+    volumes:
+    - "/var/run/docker.sock:/tmp/docker.sock"
+    environment:
+      - "constraint:node==swarm-agent1"
+
+  registratoragent2:
+    command: -ip 192.168.99.102 consul://192.168.99.100:8500
+    image: gliderlabs/registrator:latest
+    volumes:
+    - "/var/run/docker.sock:/tmp/docker.sock"
+    environment:
+      - "constraint:node==swarm-agent2"
+
+networks:
+  staticsnet:
+    driver: overlay

@@ -1,0 +1,30 @@
+version: "2"
+
+services:
+  statics1:
+    image: 192.168.99.100:5000/statics1
+    networks:
+      - staticsnet
+    environment:
+      - "constraint:node==swarm-agent1"
+  statics2:
+    image: 192.168.99.100:5000/statics2
+    networks:
+      - staticsnet
+    environment:
+      - "constraint:node==swarm-agent1"
+  statics0:
+    image: 192.168.99.100:5000/statics0
+    ports:
+      - 80:80
+    depends_on:
+      - statics1
+      - statics2
+    networks:
+      - staticsnet
+    environment:
+      - "constraint:node==swarm-agent2"
+
+networks:
+  staticsnet:
+    driver: overlay
